@@ -1,0 +1,43 @@
+---
+output: html_document
+---
+
+```{r}
+
+library(tidyverse)
+library(untidydata)
+
+# Tidyr 
+data_sep <- pre_post %>% 
+              separate(col = spec, 
+                     into =c("group", "cond"),
+                     sep = "_")
+print(data_sep)
+
+# if you wanted to combine everything  for some god forsaken reason
+data_unite <- pre_post %>% 
+                unite(col = "something", c("id":"test2"),
+                      sep = "_")
+print(data_unite)
+
+# pivot longer
+
+data_longer <- pre_post %>% 
+                pivot_longer(.,cols = c("test1", "test2"),
+                             names_to = "test",
+                             values_to = "score")
+
+print(data_longer)
+
+
+data_wider <- language_diversity %>% 
+                pivot_wider(
+                  names_from = Measurement,
+                  values_from = Value
+                ) %>% 
+                ggplot(., aes(x = log(Population), y= Langs)) +
+                  geom_point() +
+                  geom_smooth(method = "glm", method.args = list(family = "poisson"))
+print(data_wider)
+                
+```
